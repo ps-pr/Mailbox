@@ -1,0 +1,113 @@
+
+mat-sidenav {
+    margin: 16px;
+    width: 200px;
+    border-right: none;
+    background: #002b5c;
+    color: white;
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+}
+
+.content {
+    height: calc(100vh - 98px);   
+    margin: 16px;
+    margin-left: 35px;
+    justify-content: center;
+    align-items: center;
+
+}
+
+mat-sidenav-container {
+    height: calc(100vh - 65px);
+}
+
+.menu-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 1rem;
+
+    
+}
+.mat-icon {
+    margin-right: 8px;
+}
+
+.avatar {
+    margin-top: 16px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.name {
+    margin-top: 8px;
+    font-weight: normal;
+}
+
+.designation {
+    margin-top: 2px;
+    font-size: 0.7rem;
+    color: lightgrey;
+}
+
+mat-divider {
+    margin-top: 16px;
+    margin-bottom: 16px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+table {
+    width: 100%;}
+
+.sidebar-content{
+    height: calc(100vh - 100px);
+    overflow:hidden;
+}
+.table-content{
+    height: calc(100vh - 150px);
+    overflow:auto;
+
+    
+}
+.btn-class{
+    background: #002b5c;
+    color: white;
+}
+.highlight{
+    background-color: rgb(190, 185, 185);
+    color: black;
+}
+  .mat-list-icon {
+    color: rgba(0, 0, 0, 0.54);
+  }
+
+
+  .inbox-class{
+    background: #EEF0F4;
+    border-radius: 1%;
+    box-shadow: inset 7.81px 7.81px 20px #D0D2D6, inset -7.81px -7.81px 20px #FFFFFF; 
+    height:70px;
+  }
+
+  .font-class{
+      color:#38618c;
+      font-weight: 900;
+  }
+
+  .mat-row:hover {
+    background-color:rgb(226, 226, 226);
+    
+  }
+
+  .mat-list-option:hover {
+    background: rgb(226, 226, 226);
+    transform: scale(1.05);
+    cursor: pointer;
+  }
+  .selected{
+      background-color:rgb(226, 226, 226);
+      color: #002b5c;
+  }

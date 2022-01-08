@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "mailapp-7c27b": {
+      "hosting": {
+        "MailApp": [
+          "mailapp-7c27b"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "mailapp-7c27b"
+  }
+}

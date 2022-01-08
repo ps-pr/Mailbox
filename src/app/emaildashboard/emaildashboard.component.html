@@ -1,0 +1,377 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav="matSidenav" mode="side" class="mat-elevation-z8">
+    <img class="avatar mat-elevation-z8" src="{{ profileUrl }}" />
+
+    <h4 class="name">{{ loggedInUserName | titlecase }}</h4>
+    <p class="designation">UI Developer</p>
+
+    <mat-divider></mat-divider>
+
+    <button mat-button class="menu-button">
+      <mat-icon>home</mat-icon>
+      <span>Home</span>
+    </button>
+    <button mat-button class="menu-button">
+      <mat-icon>person</mat-icon>
+      <span>Profile</span>
+    </button>
+    <button mat-button class="menu-button">
+      <mat-icon>info</mat-icon>
+      <span>About</span>
+    </button>
+
+    <mat-divider></mat-divider>
+
+    <button mat-button class="menu-button">
+      <mat-icon>help</mat-icon>
+      <span>Help</span>
+    </button>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="content">
+      <div class="row sidebar-content">
+        <div class="col-2">
+          <div class="d-flex flex-column sidebar-content">
+            <button
+              mat-raised-button
+              class="btn-class"
+              (click)="composeNewMail()"
+            >
+              <mat-icon>add</mat-icon> COMPOSE
+            </button>
+
+            <mat-list>
+              <mat-list-item class="mat-list-option " [ngClass]="{selected: clickedItem === 'inbox'}" (click)="onClick('inbox')">
+                <mat-icon  mat-list-icon   >inbox</mat-icon>
+                <div mat-line>Inbox</div>
+              </mat-list-item >
+              <mat-list-item class="mat-list-option " [ngClass]="{selected: clickedItem === 'sentbox'}" (click)="onClick('sentbox')">
+                <mat-icon mat-list-icon>send</mat-icon>
+                <div mat-line>Sent Mail</div>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-icon mat-list-icon>info</mat-icon>
+                <div mat-line>Important</div>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-icon mat-list-icon>drafts</mat-icon>
+                <div mat-line>Draft</div>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-icon mat-list-icon>delete</mat-icon>
+                <div mat-line>Trash</div>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-icon mat-list-icon>chat_bubble_outline</mat-icon>
+                <div mat-line>Chat</div>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-icon mat-list-icon>error_outline</mat-icon>
+                <div mat-line>Spam</div>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-icon mat-list-icon>calendar_today</mat-icon>
+                <div mat-line>Calendar</div>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-icon mat-list-icon>folder</mat-icon>
+                <div mat-line>Others</div>
+              </mat-list-item>
+            </mat-list>
+          </div>
+        </div>
+
+        <div *ngIf="inboxTableData; else othercontent" [hidden] = "clickedItem ==='sentbox'" class="col-10">
+          <div class="row">
+            <div class="col-12">
+              <div
+                class="inbox-class p-4 pt-4"
+                style="display: flex; justify-content: space-between"
+              >
+                <h2 class="font-class">Inbox ({{ data.length }})</h2>
+                <button (click)="removeSelectedRows()" mat-button>
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 table-content ">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                   
+                    <ng-container matColumnDef="select">
+                      <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox
+                          (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()"
+                          [aria-label]="checkboxLabel()"
+                        >
+                        </mat-checkbox>
+                      </th>
+                      <td mat-cell *matCellDef="let row">
+                        <mat-checkbox
+                          (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)"
+                          [aria-label]="checkboxLabel(row)"
+                        >
+                        </mat-checkbox>
+                      </td>
+                    </ng-container>
+        
+                  
+                    <ng-container matColumnDef="name">
+                      <th mat-header-cell *matHeaderCellDef>No.</th>
+                      <td mat-cell *matCellDef="let element"  style="width: 15%; font-weight: bold; padding: 5px;">{{ element.name }}</td>
+                    </ng-container>
+        
+                  
+                    <ng-container matColumnDef="subject">
+                      <th mat-header-cell *matHeaderCellDef>Subject</th>
+                      <td mat-cell *matCellDef="let element"   style="width: 65%; padding: 5px;">{{ element.subject }}</td>
+                    </ng-container>
+        
+                  
+                    <ng-container matColumnDef="time"  >
+                      <th mat-header-cell *matHeaderCellDef>time</th>
+                      <td mat-cell *matCellDef="let element" style="width: 10%;padding: 5px;">
+                        {{ element.time | date }}
+                      </td>
+                    </ng-container>
+        
+                  
+        
+                    <tr
+                      mat-row
+                      *matRowDef="let row; columns: displayedColumns"
+                      (click)="viewMessage(row)"
+                    ></tr>
+                  </table>
+            </div></div>
+          
+        </div>
+        <ng-template #othercontent   >
+          <div
+            class="col-10"
+            style="
+              display: flex;
+              justify-content: center;
+              align-items: center;
+
+              font-size: 2rem;
+              color: lightgray;
+            "
+          >
+            Your Inbox is Empty.
+          </div>
+        </ng-template>
+        <div *ngIf="sentTableData; else sentothercontent" [hidden] = "clickedItem ==='inbox'" class="col-10">
+          <div class="row">
+            <div class="col-12">
+              <div
+                class="inbox-class p-4 pt-4"
+                style="display: flex; justify-content: space-between"
+              >
+                <h2 class="font-class">Sentbox ({{sentdataSource.length}})</h2>
+                
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 table-content">
+                <table mat-table  [dataSource]="sentdataSource" class="mat-elevation-z8 ">
+
+                   
+                    <ng-container matColumnDef="to">
+                      <th mat-header-cell *matHeaderCellDef> To </th>
+                      <td mat-cell *matCellDef="let element"   style="width: 15%;"> {{element.to}} </td>
+                    </ng-container>
+                  
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="cc">
+                      <th mat-header-cell *matHeaderCellDef> CC </th>
+                      <td mat-cell *matCellDef="let element"   style="width: 15%;"> {{element.cc}} </td>
+                    </ng-container>
+                  
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="subject">
+                      <th mat-header-cell *matHeaderCellDef> Subject </th>
+                      <td mat-cell *matCellDef="let element"  style="width: 60%;"> {{element.subject}} </td>
+                    </ng-container>
+                  
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="time">
+                      <th mat-header-cell *matHeaderCellDef> Time </th>
+                      <td mat-cell *matCellDef="let element" style="width: 10%;"> {{element.time | date}} </td>
+                    </ng-container>
+                 
+                  
+                    <!-- <tr mat-header-row *matHeaderRowDef="sentdisplayedColumns"></tr> -->
+                    <tr mat-row *matRowDef="let row; columns: sentdisplayedColumns;"  (click)="viewSentMessage(row)"></tr>
+                  </table>
+                  
+            </div></div>
+          
+        </div>
+        <ng-template #sentothercontent >
+          <div
+            class="col-10"
+            style="
+              display: flex;
+              justify-content: center;
+              align-items: center;
+
+              font-size: 2rem;
+              color: lightgray;
+            "
+          >
+            Your SentBox is Empty.
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<ng-template #composeMail>
+  <h4 matDialogTitle>New Message</h4>
+  <mat-dialog-content>
+    <form [formGroup]="mailForm">
+      <div class="row">
+        <div class="col-12 d-flex flex-column">
+          <mat-form-field appearance="outline">
+            <mat-label>TO</mat-label>
+            <input matInput formControlName="to" />
+            <span style="position: relative; bottom: 8px; color: grey" matSuffix
+              >@mailbox.com</span
+            >
+            <mat-error *ngIf="mailForm.get('to').hasError('required')">
+              This feild cannot be Empty
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>CC</mat-label>
+            <input matInput formControlName="cc" />
+            <span style="position: relative; bottom: 8px; color: grey" matSuffix
+              >@mailbox.com</span
+            >
+            <mat-error *ngIf="mailForm.get('cc').hasError('required')">
+              This feild cannot be Empty
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Subject</mat-label>
+            <input matInput formControlName="subject" />
+
+            <mat-error *ngIf="mailForm.get('subject').hasError('required')">
+              This feild cannot be Empty
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Type your message...</mat-label>
+
+            <textarea matInput rows="5" formControlName="message"></textarea>
+
+            <mat-error *ngIf="mailForm.get('message').hasError('required')">
+              This feild cannot be Empty
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-raised-button class="btn-class" matDialogClose="yes">
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      class="btn-class"
+      matDialogClose="yes"
+      (click)="sendMail()"
+    >
+      Send
+    </button>
+  </mat-dialog-actions>
+</ng-template>
+<ng-template #viewMessge>
+  <h4 matDialogTitle></h4>
+  <mat-dialog-content>
+    <form [formGroup]="messageForm">
+      <div class="row">
+        <div class="col-12 d-flex flex-column">
+          <mat-form-field appearance="outline">
+            <mat-label>From</mat-label>
+            <input matInput formControlName="from" readonly />
+            <span style="position: relative; bottom: 8px; color: grey" matSuffix
+              >@mailbox.com</span
+            >
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Subject</mat-label>
+            <input matInput formControlName="subject" readonly />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Message</mat-label>
+            <textarea
+              matInput
+              rows="5"
+              formControlName="message"
+              readonly
+            ></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-raised-button class="btn-class" matDialogClose="yes">
+      Close
+    </button>
+  </mat-dialog-actions>
+</ng-template>
+<ng-template #viewSentMessge>
+  <h4 matDialogTitle></h4>
+  <mat-dialog-content>
+    <form [formGroup]="sentmailForm">
+      <div class="row">
+        <div class="col-12 d-flex flex-column">
+          <mat-form-field appearance="outline">
+            <mat-label>To</mat-label>
+            <input matInput formControlName="to" readonly />
+            <span style="position: relative; bottom: 8px; color: grey" matSuffix
+              >@mailbox.com</span
+            >
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>CC</mat-label>
+            <input matInput formControlName="cc" readonly />
+            <span style="position: relative; bottom: 8px; color: grey" matSuffix
+              >@mailbox.com</span
+            >
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Subject</mat-label>
+            <input matInput formControlName="subject" readonly />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Message</mat-label>
+            <textarea
+              matInput
+              rows="5"
+              formControlName="message"
+              readonly
+            ></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-raised-button class="btn-class" matDialogClose="yes">
+      Close
+    </button>
+  </mat-dialog-actions>
+</ng-template>

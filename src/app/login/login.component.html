@@ -1,0 +1,98 @@
+<div class="row d-flex p-5 mt-8 justify-content-center " >
+    <div class="col-lg-12 col-md-12 col-sm-10 col-xs-10  " >
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-5 col-xs-5 d-flex justify-content-center align-items-center ">
+                <span ><span class="display-4"  @fade>Welcome to Mailbox.</span><span *ngIf = "text==='SignIn'" class="display-4 " 
+                    @fade>{{text }}</span><span *ngIf = "text==='SignUp'" class="display-4 " 
+                    @fade>{{text }}</span></span>
+            </div>
+        </div>
+        
+    <div class="row d-flex p-2 justify-content-center align-items-center" style="margin-top: -10px;">
+        <div class="col-lg-4 col-sm-10 col-xs-10">
+            
+            <img src="../../assets/computer-login-animate (1).svg" width="100% " style="padding: 0px;" class="floating">
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-10 col-xs-10 offset-1">
+            <mat-card class="mat-elevation-z5" style="border-radius:20px;">
+                <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabClick($event)">
+                    <mat-tab label="LOGIN"> 
+                        <div class="p-3 mt-2" >
+                            <form [formGroup]="loginForm">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Username</mat-label>
+                                            <input matInput  formControlName="userName">
+                                            <span  style="position: relative; bottom: 8px;  color:grey" matSuffix>@mailbox.com</span>
+                                            <mat-error *ngIf="
+                                            loginForm.get('userName').hasError('required')">
+                                            Username is required
+                                            </mat-error>
+                                            <mat-error *ngIf="
+                                            loginForm.get('userName').hasError('pattern')
+                                            &&!loginForm.get('userName').hasError('required')">
+                                            Please enter a valid username
+                                            </mat-error>
+                                            
+                                          </mat-form-field>
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Password</mat-label>
+                                            <input matInput type="password" formControlName="password">
+                                            <mat-error *ngIf="
+                                            loginForm.get('password').hasError('pattern')
+                                            &&!loginForm.get('password').hasError('required')">
+                                            Please enter a valid password
+                                            </mat-error>
+                                            <mat-error *ngIf="
+                                            !loginForm.get('password').hasError('pattern')
+                                            &&loginForm.get('password').hasError('required')">
+                                            Password is required
+                                            </mat-error>
+                                          </mat-form-field>
+                                    </div>
+                                    <button mat-raised-button class="btn-class" [disabled]="!loginForm.valid" (click)="login()">
+                                        LOGIN
+                                    </button>
+                                </div>
+                            </form>
+                    </div>               
+                    </mat-tab>
+                    <mat-tab label="SIGN UP"><div class="p-3 mt-2" >
+                        <form [formGroup]="signupForm">
+                            <div class="row">
+                                <div class="col-12">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Username</mat-label>
+                                        <input matInput  formControlName="userName">
+                                        <span  style="position: relative; bottom: 8px;  color:grey" matSuffix>@mailbox.com</span>
+                                        <mat-hint>Username between 3-8 characters.Only Alphabets allowed</mat-hint>
+                                      </mat-form-field>
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Password</mat-label>
+                                        <input matInput type="password"  formControlName="password">
+                                        <mat-hint>Password between 6-12 characters.Only digits allowed</mat-hint>
+                                      </mat-form-field>
+                                      
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Confirm Password</mat-label>
+                                        <input matInput type="password"  formControlName="confirmPassword">
+                                        <mat-error *ngIf="
+                                        signupForm.get('confirmPassword').hasError('matching')">
+                                        Password does not match.
+                                        </mat-error>
+                                      </mat-form-field>
+                                </div>
+                                <button mat-raised-button class="btn-class" [disabled]="!signupForm.valid" (click)="SignUp()">
+                                    SIGNUP
+                                </button>
+                            </div> 
+                        </form>
+                </div></mat-tab>
+                    
+                  </mat-tab-group>
+            </mat-card>
+        </div>
+    </div>
+    
+</div></div>

@@ -1,0 +1,15 @@
+
+<mat-toolbar class="mat-toolbar">
+    <button *ngIf= "loginSuccess" mat-icon-button class="example-icon" (click)="clickMenu()" aria-label="Example icon-button with menu icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span><mat-icon  style="vertical-align:sub;"> email</mat-icon></span><span class="padding">MAIL BOX</span>
+    <span class="example-spacer"></span>
+    <mat-icon class="pr-3" *ngIf= "loginSuccess " [matBadgeHidden]="unReadCount == 0"matBadge={{unReadCount}} matBadgeColor="warn" class=".icon-class" >notifications_none</mat-icon>
+    
+    <!-- Include text description of the icon's meaning for screen-readers -->
+    
+    <button *ngIf= "loginSuccess"mat-button class="example-icon pl-3" (click)="signOut()">
+      SIGN OUT
+    </button>
+  </mat-toolbar>
